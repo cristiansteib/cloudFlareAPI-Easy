@@ -1,10 +1,15 @@
-# cloudFlareAPI-Easy
-abstracción para la api de CloudFlare
+# CloudFlare-Easy-API
 
-Requiere:
-  -Python 3.5
-  []Modulos:
-    -requests
-        $ pip install requests
+Easy way to start with Cloudflare API
 
-Una manera facil de utilizar la API CloudFlare V4
+### Installation
+
+Requires [Python 3.5](https://www.python.org/downloads/)  to run.
+
+
+
+Install the dependencies.
+
+```sh
+$ pip install requests
+```
