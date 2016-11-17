@@ -96,7 +96,7 @@ class EasyUpdate():
                 return {'error': False, 'value': response}
             else:
                 return {'error': False, 'value': response}
-        except KeyError:
+        except (KeyError,TypeError):
             return {'error': True}
 
 
