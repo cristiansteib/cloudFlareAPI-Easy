@@ -1,7 +1,7 @@
-'''Author: Cristian Steib date : 16/11/2016'''
-
 import sys
 import requests
+
+
 
 class CloudFlareApi():
     def __init__(self, auth_key, auth_mail):
@@ -32,7 +32,7 @@ class CloudFlareApi():
     def list_zones(self):
         return self.__call_api('/zones', method='GET')
 
-    def list_frindly_zones(self):
+    def list_friendly_zones(self):
         list_zones = self.list_zones().json()
         if (list_zones['success']):
             zonas = {}
@@ -71,37 +71,41 @@ class EasyUpdate():
         self.cloudInstace = instanceCloudFlareApi
 
     def update_dns_ip(self, dns_name, newIP):
-        searchFor = dns_name
+
         dns_hit_record = {}
         try:
-            zones = self.cloudInstace.list_frindly_zones()
-            id_zone = zones[searchFor]
-            dns_records = self.cloudInstace.list_dns_records(id_zona=id_zone).json()['result']
+            # get all zones
+            zones = self.cloudInstace.list_friendly_zones()
+            zone_id = zones[dns_name]
+            dns_records = self.cloudInstace.list_dns_records(id_zona=zone_id).json()['result']
             for dns_record in dns_records:
                 try:
-                    if dns_record['name'] == searchFor:
+                    if dns_record['name'] == dns_name:
                         dns_hit_record = dns_record
                 except:
                     # miss
                     pass
             if dns_hit_record:
-                id_dns = (dns_hit_record['id'])
-                dns_hit_record.pop('meta')
-                dns_hit_record['data'] = {}
-                dns_hit_record['content'] = newIP
+                data = {
+                    'type': dns_hit_record['type'],
+                    'name': dns_hit_record['name'],
+                    'content': newIP,
+                    'proxiable':dns_hit_record['proxiable'],
+                    'proxied':dns_hit_record['proxied'],
+                    'ttl': dns_hit_record['ttl']
+                }
                 # despues de aca dns_hit_record lo manejo con str
-
-                dns_hit_record = str(dns_hit_record).replace('\'', '"')
-                response = self.cloudInstace.update_dns_record(id_dns=id_dns, id_zona=id_zone, data=dns_hit_record)
+                dns_id = dns_hit_record['id']
+                dns_hit_record = str(data).replace('\'', '"').replace('True', 'true').replace('False', 'false')
+                response = self.cloudInstace.update_dns_record(id_dns=dns_id, id_zona=zone_id, data=dns_hit_record)
                 return {'error': False, 'value': response}
             else:
                 return {'error': False, 'value': response}
-        except (KeyError,TypeError):
+        except KeyError:
+            print('Keyy error')
             return {'error': True}
+        except:
+            import sys
+            print(sys.exc_info())
 
-
-# example
-# c = CloudFlareApi(auth_key, auth_mail)
-# x = EasyUpdate(c)
-#  ret= x.update_dns_ip('dominio.com','111.311.111.111')
 
