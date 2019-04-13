@@ -8,7 +8,7 @@ setup(
     author='Cristian Steib',
     author_email='cristiansteib@gmail.com',
     url='https://github.com/cristiansteib/cloudFlareAPI-Easy',
-    install_requires=open('requirements.txt').read().splitlines(),
+    install_requires=[],
     description='Cloudflare api',
     package_data={'resources': ['*', '**/*', '**/**/*']},
     license='Propietary',
