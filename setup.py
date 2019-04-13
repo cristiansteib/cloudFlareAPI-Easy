@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 
 setup(
-    name='cloudFlareApi_Easy',
+    name='cloudflareapi_easy',
     version='0.1',
     author='Cristian Steib',
     author_email='cristiansteib@gmail.com',
