@@ -3,11 +3,11 @@ from setuptools import setup, find_packages
 
 
 setup(
-    name='cloudflareapi_easy',
+    name='cloudflareapi',
     version='0.1',
     author='Cristian Steib',
     author_email='cristiansteib@gmail.com',
-    url='https://github.com/cristiansteib/cloudFlareAPI-Easy',
+    url='https://github.com/cristiansteib/cloudflareapi',
     install_requires=[],
     description='Cloudflare api',
     package_data={'resources': ['*', '**/*', '**/**/*']},
