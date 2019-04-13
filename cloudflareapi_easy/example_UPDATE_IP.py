@@ -1,4 +1,4 @@
-import cloudflare
+from cloudflareapi_easy import cloudflare
 
 auth_key = 'ffffffffffffffffffff'
 auth_mail = 'email@example.com'
