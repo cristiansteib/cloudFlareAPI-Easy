@@ -17,10 +17,10 @@ class CloudFlareApi():
                        'X-Auth-Key': self.x_auth_key,
                        'Content - Type': 'application / json'}
 
-            if (method == 'PUT'):
+            if method == 'PUT':
                 response = requests.request(method='PUT', url=self.endpoint + url, data=data, headers=headers)
                 return response
-            if (method == 'GET'):
+            if method == 'GET':
                 response = requests.request(method='GET', url=self.endpoint + url, headers=headers, data=data)
                 return response
         except:
@@ -70,7 +70,7 @@ class EasyUpdate():
     def __init__(self, instanceCloudFlareApi):
         self.cloudInstace = instanceCloudFlareApi
 
-    def update_dns_ip(self, dns_name, newIP):
+    def update_dns_ip(self, dns_name, newIP, dns_type='A'):
 
         dns_hit_record = {}
         try:
@@ -80,7 +80,7 @@ class EasyUpdate():
             dns_records = self.cloudInstace.list_dns_records(id_zona=zone_id).json()['result']
             for dns_record in dns_records:
                 try:
-                    if dns_record['name'] == dns_name:
+                    if dns_record['name'] == dns_name and dns_record['type'] == dns_type:
                         dns_hit_record = dns_record
                 except:
                     # miss
