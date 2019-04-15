@@ -2,7 +2,6 @@ import sys
 import requests
 
 
-
 class CloudFlareApi():
     def __init__(self, auth_key, auth_mail):
         # The stable HTTPS endpoint for the latest version is:
@@ -73,39 +72,31 @@ class EasyUpdate():
     def update_dns_ip(self, dns_name, newIP, dns_type='A'):
 
         dns_hit_record = {}
-        try:
-            # get all zones
-            zones = self.cloudInstace.list_friendly_zones()
-            zone_id = zones[dns_name]
-            dns_records = self.cloudInstace.list_dns_records(id_zona=zone_id).json()['result']
-            for dns_record in dns_records:
-                try:
-                    if dns_record['name'] == dns_name and dns_record['type'] == dns_type:
-                        dns_hit_record = dns_record
-                except:
-                    # miss
-                    pass
-            if dns_hit_record:
-                data = {
-                    'type': dns_hit_record['type'],
-                    'name': dns_hit_record['name'],
-                    'content': newIP,
-                    'proxiable':dns_hit_record['proxiable'],
-                    'proxied':dns_hit_record['proxied'],
-                    'ttl': dns_hit_record['ttl']
-                }
-                # despues de aca dns_hit_record lo manejo con str
-                dns_id = dns_hit_record['id']
-                dns_hit_record = str(data).replace('\'', '"').replace('True', 'true').replace('False', 'false')
-                response = self.cloudInstace.update_dns_record(id_dns=dns_id, id_zona=zone_id, data=dns_hit_record)
-                return {'error': False, 'value': response}
-            else:
-                return {'error': False, 'value': response}
-        except KeyError:
-            print('Keyy error')
-            return {'error': True}
-        except:
-            import sys
-            print(sys.exc_info())
 
-
+        # get all zones
+        zones = self.cloudInstace.list_friendly_zones()
+        zone_id = zones[dns_name]
+        dns_records = self.cloudInstace.list_dns_records(id_zona=zone_id).json()['result']
+        for dns_record in dns_records:
+            try:
+                if dns_record['name'] == dns_name and dns_record['type'] == dns_type:
+                    dns_hit_record = dns_record
+            except:
+                # miss
+                pass
+        if dns_hit_record:
+            data = {
+                'type': dns_hit_record['type'],
+                'name': dns_hit_record['name'],
+                'content': newIP,
+                'proxiable': dns_hit_record['proxiable'],
+                'proxied': dns_hit_record['proxied'],
+                'ttl': dns_hit_record['ttl']
+            }
+            # despues de aca dns_hit_record lo manejo con str
+            dns_id = dns_hit_record['id']
+            dns_hit_record = str(data).replace('\'', '"').replace('True', 'true').replace('False', 'false')
+            response = self.cloudInstace.update_dns_record(id_dns=dns_id, id_zona=zone_id, data=dns_hit_record)
+            return {'error': False, 'value': response}
+        else:
+            return {'error': False, 'value': response}
