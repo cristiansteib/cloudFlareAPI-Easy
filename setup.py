@@ -9,7 +9,7 @@ setup(
     author_email='cristiansteib@gmail.com',
     url='https://github.com/cristiansteib/cloudflareapi',
     install_requires=open('requirements.txt').read().splitlines(),
-    description='Cloudflare api',
+    description='Cloudflare API',
     package_data={'resources': ['*', '**/*', '**/**/*']},
     license='Propietary',
     packages=find_packages()

@@ -4,7 +4,7 @@ Easy way to start with Cloudflare API
 
 ### Installation
 
-Requires [Python 3.5](https://www.python.org/downloads/)  to run.
+Requires [Python 3.7](https://www.python.org/downloads/)  to run.
 
 
 
